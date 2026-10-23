@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Past Tense Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050d24;--bg2:#0a1636;--tx:#eef3ff;--mu:#9fb0d8;--ac:#ffc933;--ac2:#2f7bff;--card:rgba(255,201,51,.06);--bd:rgba(120,160,255,.22);--ok:#3ddc97;--bad:#ff5468;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=light]{--bg:#f4f8ff;--bg2:#fff;--tx:#0b1a3d;--mu:#4c5f8a;--ac:#c98a00;--ac2:#1f5fe0;--card:rgba(255,255,255,.92);--bd:rgba(31,95,224,.22);--ok:#0a8f5a;--bad:#c3162d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input{-webkit-user-select:text;user-select:text}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--tx);background:radial-gradient(800px 500px at 90% -10%,rgba(47,123,255,.32),transparent),radial-gradient(800px 500px at -10% 110%,rgba(255,201,51,.2),transparent),var(--bg);min-height:100vh}
+.app{display:flex;min-height:100vh}
+aside{width:236px;padding:18px 12px;background:var(--bg2);border-right:1px solid var(--bd);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+.logo{font-family:Orbitron,sans-serif;font-weight:800;font-size:16px;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 8px 14px}
+.nav{all:unset;box-sizing:border-box;cursor:pointer;padding:10px 12px;border-radius:12px;color:var(--mu);font-weight:600;border:1px solid transparent;display:block;font-size:14px}
+.nav:hover{color:var(--tx)}.nav.on{color:var(--tx);background:var(--card);border-color:var(--ac);box-shadow:0 0 16px rgba(255,201,51,.3)}
+.by{margin-top:auto;font-size:12px;color:var(--mu);padding:8px}.by b{color:var(--tx)}
+.wrap{flex:1;min-width:0;padding:18px 22px 40px}
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:18px}
+.pill{background:var(--card);border:1px solid var(--bd);border-radius:999px;padding:8px 14px;font-size:13px}
+.timer{font-family:Orbitron,sans-serif;font-weight:600;color:var(--ac)}.timer.low{color:var(--bad)}
+button.b{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px}
+button.p{cursor:pointer;border:0;background:linear-gradient(90deg,var(--ac),var(--ac2));color:#fff;border-radius:12px;padding:12px 22px;font-weight:700;font-size:15px;box-shadow:0 6px 22px rgba(47,123,255,.35)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px)}
+h1{font-family:Orbitron,sans-serif;font-size:21px;margin:0 0 6px}h3{margin:0 0 8px;color:var(--ac)}
+.mu{color:var(--mu);font-size:14px}
+label{display:block;font-size:13px;color:var(--mu);margin:10px 0 4px}
+input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:15px;font-family:inherit}
+input.ty{width:220px;max-width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.o{cursor:pointer;padding:8px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:14px;text-align:left}
+.o.sel{border-color:var(--ac);box-shadow:0 0 12px rgba(255,201,51,.45)}.o.ok{border-color:var(--ok);background:rgba(61,220,151,.18)}.o.no{border-color:var(--bad);background:rgba(255,84,104,.18)}
+.q{font-weight:600;margin-top:6px}.txt{line-height:1.75;font-size:15px}
+.res{font-family:Orbitron,sans-serif;font-size:28px}.good{color:var(--ok)}.bad{color:var(--bad)}
+.log{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ac);min-height:20px}
+canvas{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--bd);display:block;margin:10px 0}
+.over{background:rgba(255,84,104,.18);border:1px solid var(--bad);padding:12px;border-radius:12px;margin-bottom:12px;font-weight:600}
+#gate{position:fixed;inset:0;z-index:99;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(900px 600px at 80% 0,rgba(47,123,255,.4),transparent),radial-gradient(800px 500px at 0 100%,rgba(255,201,51,.3),transparent),var(--bg)}
+#gate .card{width:100%;max-width:400px;text-align:center}
+@media(max-width:760px){.app{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:10px}.logo,.by{display:none}.nav{white-space:nowrap}.wrap{padding:14px}}
+@media print{body{display:none}}
+</style></head><body>
+<div id="gate"></div>
+<div class="app"><aside id="side"></aside>
+<div class="wrap"><div class="top"><div class="pill">🕒 <span id="clock"></span></div><div class="pill timer" id="tm">40:00</div>
+<div style="display:flex;gap:8px"><button class="b" data-a="lang" id="bl"></button><button class="b" data-a="theme" id="bt"></button></div></div>
+<main id="main"></main></div></div>
+<script>
+const T={id:{by:"Dibuat oleh",nav:["Identitas","Materi","Sertifikat"],idt:"Identitas Murid",nm:"Nama",cl:"Kelas",no:"Nomor Presensi",ma:"Asal Madrasah",start:"Simpan & Mulai",idm:"Isi semua data. Waktu 40 menit dimulai setelah data disimpan. Jika identitas berubah, aktivitas diacak ulang otomatis (materi sama) dan waktu diulang. Membuka tab lain akan mengunci aplikasi secara permanen di perangkat ini, termasuk jika berganti akun.",fill:"Lengkapi identitas dahulu.",mat:"Materi: Past Simple & Past Continuous",ty:"Ketik jawabanmu",chk:"Periksa Jawaban",retry:"Ulangi (diacak)",score:"Skor",pass:"Selamat! Skor ≥ 80, sertifikat tersedia.",fail:"Skor belum mencapai 80. Coba lagi.",time:"Waktu habis! Aplikasi berhenti otomatis. Jawaban terkunci.",cert:"Sertifikat",ld:"Sertifikat terbuka jika skor ≥ 80. Skor saat ini:",dl:"Unduh Sertifikat",ana:["Menganalisis identitas…","Meriset ulang susunan aktivitas…","Materi tetap, aktivitas diacak ✔"],ready:"Siap. Kode acak:",li:"Masuk",un:"Username",pw:"Password",bad:"Username atau password salah.",lk:"Aplikasi TERKUNCI karena tab/jendela lain dibuka. Kunci tetap berlaku walau berganti akun. Hubungi guru.",act:"Aktivitas"},
+en:{by:"Created by",nav:["Identity","Material","Certificates"],idt:"Student Identity",nm:"Name",cl:"Class",no:"Attendance No.",ma:"Madrasah",start:"Save & Start",idm:"Fill in all fields. The 40-minute timer starts once saved. If the identity changes, activities are re-randomized automatically (same material) and the timer restarts. Opening another tab locks the app permanently on this device, even if another account is used.",fill:"Please complete your identity first.",mat:"Material: Past Simple & Past Continuous",ty:"Type your answer",chk:"Check Answers",retry:"Retry (reshuffled)",score:"Score",pass:"Congratulations! Score ≥ 80, certificate unlocked.",fail:"Score is below 80. Try again.",time:"Time is up! The app stopped automatically. Answers are locked.",cert:"Certificate",ld:"Certificate unlocks at score ≥ 80. Current score:",dl:"Download Certificate",ana:["Analyzing identity…","Re-researching activity arrangement…","Material unchanged, activities shuffled ✔"],ready:"Ready. Shuffle code:",li:"Sign in",un:"Username",pw:"Password",bad:"Wrong username or password.",lk:"App LOCKED because another tab/window was opened. The lock stays even if another account is used. Please contact your teacher.",act:"Activity"}};
+const CASEY="Casey Jones (1863–1900) was an American railway driver. He became a hero when he died because he saved the lives of many passengers in a terrible accident. On 30 April 1900 Casey was driving his train back to the station during a dark and wet night. He was with another driver, his friend Webb. The train was going fast because Casey wanted to get back quickly but this wasn't the problem. There was another train on the same railway. Casey and Webb didn't know about this train. As Casey was coming around a bend, he saw the other train. Casey realised the danger. 'Jump!' he shouted to his friend. Webb jumped from the train while Casey was trying to stop. Webb fell 100 metres but he didn't die. While he was falling, he heard Casey. Casey was shouting, 'Help!' The train was going fast, so it couldn't stop quickly. Casey slowed the train down but it still crashed. Casey was killed but the passengers didn't die. Casey became very famous after this and his friend wrote a very popular song, The Ballad of Casey Jones, about him.";
+const RULES=["Past simple: add -ed to regular verbs; negative = did not + infinitive; question = Did + subject + infinitive. Many verbs are irregular (go → went, see → saw, be → was/were).","Use the past simple for past actions, states and facts, and for repeated or usual actions.","Past continuous: was/were + verb-ing. Use it for events in progress at a particular time, for simultaneous ongoing situations, and to give the reason for a past event or set the background of a story.","A shorter past simple event interrupts a longer past continuous one: My dad phoned while I was having a shower.","While goes before the past continuous; when goes before the past simple or the past continuous. Use when to join consecutive past simple events and with states (ages).","As describes two short events happening together: As the train crashed, everyone screamed.","Use during to say when something happened; use for to say how long it went on."];
+const DK="Dick Whittington (1358–1423) was a famous mayor of London. The story says that Dick was a poor boy who (1) to London to become rich. Dick (2) his cat with him for company. Life was very hard in London. Dick worked as a servant (3) some months but he got very little money and all he had was his cat. Finally, Dick decided to give his cat to a merchant and leave London. As he (4) down the street, he (5) a voice in his head. The voice said, 'Come back, Dick, you will be Mayor of London three times!' Dick came back. At the same time, the merchant and his men (6) by ship to another country. It was a good ship but there was a big problem: rats! Rats (7) everywhere on the ship and no one (8) them. Luckily, Dick's cat was very good at catching rats. The merchant was very happy with the cat and gave Dick a nice present when he (9) home. Dick now had some money and he started his own business. He also married a rich woman. Dick (10) mayor of London three times and (11) he died he left a lot of money. The story does not say what (12) to his cat.";
+const D=[
+{t:"A — Past Simple Forms",ty:1,it:[["do","did"],["have","had"],["get","got"],["open","opened"],["eat","ate"],["swim","swam"],["shout","shouted"],["fall","fell"],["try","tried"],["know","knew"],["become","became"]]},
+{t:"B — Past Continuous",it:[["The baby _____ very loudly, so I couldn't hear.","was crying|cried|were crying"],["_____ you _____ TV all night?","Were / watching|Did / watched|Was / watching"],["I couldn't call you because our phone _____.","wasn't working|weren't working|isn't working"],["While we _____ for the bus, it started to rain.","were waiting|waited|was waiting"],["_____ John _____ in London when you met him?","Was / living|Did / live|Were / living"],["My mum and dad _____ a coffee in the kitchen.","were having|was having|had"],["It _____ but it was very cold.","wasn't snowing|didn't snow|weren't snowing"],["Did it really happen or _____ I only _____?","was / dreaming|did / dream|were / dreaming"],["Glenn and Kirsten _____ in the game last Saturday.","weren't playing|wasn't playing|didn't playing"]]},
+{t:"C — Match the Pairs",it:[["When I got home, …","I made dinner.|I was making dinner."],["The bottle smashed …","as it fell on the floor.|while it was falling on the floor."],["After the teacher finished, …","the students asked some questions.|the students were asking some questions."],["What music did you like …","when you were 11 years old?|while you were 11 years old?"],["I wasn't working …","for two years.|during two years."],["Clare was working in Oxford …","while Mike was studying at night school.|as Mike studied at night school."],["We started …","when everything was ready.|while everything was ready."],["Was Susan wearing the same dress …","when she came in?|when she was coming in?"]]},
+{t:"F — Dick Whittington",ns:1,p:DK,it:[["Blank 1","came|was coming|has come|comes"],["Blank 2","took|was taking|were taking|taken"],["Blank 3","for|during|in|at"],["Blank 4","was walking|walks|is walking|has walked"],["Blank 5","heard|hear|was hearing|were hearing"],["Blank 6","was travelling|travels|travelled|were travelling"],["Blank 7","were running|is running|are running|was running"],["Blank 8","didn't catch|has caught|could catch|did catch"],["Blank 9","got|get|gotten|was getting"],["Blank 10","became|become|was becoming|did becoming"],["Blank 11","when|as|while|since"],["Blank 12","happened|happens|did happen|was happening"]]},
+{t:"Reading & My Test",p:CASEY,it:[["Casey is a hero because he _____.","saved many lives|wrote a song"],["Webb was a _____.","driver|passenger"],["_____ the train stopped, all the passengers got off.","When|While|As"],["I didn't interrupt Casey because he _____ to Webb.","was speaking|spoke|were speaking"],["Webb was a driver _____ a long time.","for|during|since"],["What _____ Casey's wife _____ when she heard the news?","did … say|was … saying|has … said"],["Casey's friend never _____ by train again.","travelled|didn't travel|was travelling"]]}];
+const N=D.length,S={lang:"id",theme:matchMedia("(prefers-color-scheme: light)").matches?"light":"dark",view:0,auth:false,locked:false,id:null,end:0,done:false,b:[],a:[],ch:[],sc:[],err:""};
+try{S.locked=localStorage.getItem("pl_lock")==="1"}catch(_){}
+if(/pl_lock=1/.test(document.cookie))S.locked=true;
+const $=s=>document.querySelector(s),t=k=>T[S.lang][k];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function hash(s){let h=1779033703;for(const c of s)h=Math.imul(h^c.charCodeAt(0),3432918353),h=h<<13|h>>>19;return h>>>0}
+function rng(a){return()=>{a|=0;a=a+1831565813|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuf(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function bu(u,seed){const r=rng(hash(seed+"|"+u)),d=D[u],m=q=>d.ty?{q:q[0]+" → ?",a:q[1]}:(o=>({q:q[0],a:o[0],o:shuf(o,r)}))(q[1].split("|"));
+S.b[u]=(d.ns?d.it:shuf(d.it,r)).map(m);S.a[u]=[];S.ch[u]=false;S.sc[u]=null}
+function build(){const k=Object.values(S.id).join("|").toLowerCase();S.code=hash(k).toString(36).toUpperCase();D.forEach((_,u)=>bu(u,k))}
+function score(u){let c=0;S.b[u].forEach((q,i)=>(S.a[u][i]||"").trim().toLowerCase()===q.a.toLowerCase()&&c++);S.sc[u]=Math.round(c/S.b[u].length*100)}
+function gate(){const g=$("#gate");if(S.auth&&!S.locked){g.style.display="none";return}
+g.style.display="flex";const hd=`<div style="text-align:right"><button class="b" data-a="lang">🌐</button> <button class="b" data-a="theme">◐</button></div><h1>Past Tense Lab</h1>`;
+g.innerHTML=`<div class="card">${hd}${S.locked?`<p class="bad" style="font-weight:600">🔒 ${t("lk")}</p>`:`<label>${t("un")}</label><input id="gu" autocomplete="off"><label>${t("pw")}</label><input id="gp" type="password" autocomplete="off"><p class="bad">${S.err}</p><button class="p" id="gl">${t("li")}</button>`}<p class="mu">${t("by")} Ahmad Budi Leksono</p></div>`}
+function render(){document.documentElement.dataset.theme=S.theme;document.documentElement.lang=S.lang;gate();if(!S.auth||S.locked)return;
+$("#bl").textContent=S.lang==="id"?"🌐 English":"🌐 Indonesia";$("#bt").textContent=S.theme==="dark"?"☀️ Light":"🌙 Dark";
+const nv=[t("nav")[0],t("nav")[1],...D.map(d=>d.t),t("nav")[2]],ic=["🪪","📘","✍️","⏳","🔗","🏰","🎯","🏅"],L=nv.length-1;
+$("#side").innerHTML=`<div class="logo">PAST TENSE LAB</div>`+nv.map((n,i)=>`<button class="nav ${S.view===i?"on":""}" data-v="${i}">${ic[i]} ${n}${i>1&&i<L&&S.sc[i-2]>=80?" ✔":""}</button>`).join("")+`<div class="by">${t("by")}<br><b>Ahmad Budi Leksono</b></div>`;
+const m=$("#main");
+if(S.view>0&&!S.id){m.innerHTML=`<div class="card"><h1>${nv[S.view]}</h1><p class="mu">${t("fill")}</p></div>`;return}
+if(S.view===0)m.innerHTML=`<div class="card"><h1>${t("idt")}</h1><p class="mu">${t("idm")}</p><div class="grid"><div><label>${t("nm")}</label><input id="f0" autocomplete="off" value="${esc(S.id?.n||"")}"></div><div><label>${t("cl")}</label><input id="f1" autocomplete="off" value="${esc(S.id?.c||"")}"></div><div><label>${t("no")}</label><input id="f2" inputmode="numeric" autocomplete="off" value="${esc(S.id?.p||"")}"></div><div><label>${t("ma")}</label><input id="f3" autocomplete="off" value="${esc(S.id?.m||"")}"></div></div><br><button class="p" id="go">${t("start")}</button><p class="log" id="lg">${S.id?t("ready")+" "+S.code:""}</p></div>`;
+else if(S.view===1)m.innerHTML=`<div class="card"><h1>${t("mat")}</h1><h3>He was driving on a dark night.</h3><p class="txt">${esc(CASEY)}</p></div><div class="card"><h3>Grammar</h3>${RULES.map((r,i)=>`<p class="txt">${i+1}. ${esc(r)}</p>`).join("")}</div>`;
+else if(S.view<L){const u=S.view-2,d=D[u],b=S.b[u],a=S.a[u],c=S.ch[u],dis=S.done||c?"disabled":"";
+m.innerHTML=`<div class="card"><h1>${t("act")} ${d.t}</h1>${S.done?`<div class="over">${t("time")}</div>`:""}${d.p?`<p class="txt">${esc(d.p)}</p>`:""}</div><div class="card">${b.map((q,i)=>d.ty?`<div class="q">${i+1}. ${esc(q.q)}</div><input class="ty" data-t="${i}" placeholder="${t("ty")}" autocomplete="off" value="${esc(a[i]||"")}" ${dis}>${c?`<b class="${(a[i]||"").trim().toLowerCase()===q.a?"good":"bad"}"> ${(a[i]||"").trim().toLowerCase()===q.a?"✔":"✘ "+q.a}</b>`:""}<br>`:`<div class="q">${i+1}. ${esc(q.q)}</div><div class="opts">${q.o.map(o=>{let cl="o";if(c){if(o===q.a)cl+=" ok";else if(a[i]===o)cl+=" no"}else if(a[i]===o)cl+=" sel";return`<button class="${cl}" data-i="${i}" data-o="${esc(o)}" ${dis}>${esc(o)}</button>`}).join("")}</div>`).join("")}</div>${c?"":`<button class="p" data-c="${u}" ${S.done?"disabled":""}>${t("chk")}</button>`}${S.sc[u]!==null?`<div class="card" style="margin-top:14px"><div class="res ${S.sc[u]>=80?"good":"bad"}">${t("score")}: ${S.sc[u]}</div><p>${S.sc[u]>=80?t("pass"):t("fail")}</p>${S.done?"":`<button class="b" data-r="${u}">${t("retry")}</button>`} ${S.sc[u]>=80?`<button class="b" data-v="${L}">🏅 ${t("cert")}</button>`:""}</div>`:""}`}
+else{m.innerHTML=D.map((d,i)=>`<div class="card"><h3>${t("cert")} — ${d.t}</h3>${S.sc[i]>=80?`<canvas id="cv${i}"></canvas><button class="p" data-d="${i}">${t("dl")}</button>`:`<p class="mu">${t("ld")} <b>${S.sc[i]===null?"–":S.sc[i]}</b></p>`}</div>`).join("");D.forEach((_,i)=>S.sc[i]>=80&&draw($("#cv"+i),i))}}
+function draw(c,i){const W=1200,H=850,x=c.getContext("2d");c.width=W;c.height=H;
+let g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,"#050d24");g.addColorStop(1,"#12388f");x.fillStyle=g;x.fillRect(0,0,W,H);
+x.strokeStyle="#ffc933";x.lineWidth=7;x.strokeRect(30,30,W-60,H-60);x.lineWidth=2;x.strokeRect(50,50,W-100,H-100);
+x.textAlign="center";x.fillStyle="#ffe9a8";x.font="700 58px Georgia,serif";x.fillText("CERTIFICATE OF ACHIEVEMENT",W/2,170);
+x.font="26px sans-serif";x.fillStyle="#ffc933";x.fillText("Past Tense Lab",W/2,220);
+x.fillStyle="#fff";x.font="24px sans-serif";x.fillText("This certificate is proudly presented to",W/2,300);
+x.font="italic 700 62px Georgia,serif";x.fillStyle="#ffc933";x.fillText(S.id.n,W/2,385,1000);
+x.fillStyle="#fff";x.font="26px sans-serif";x.fillText(`Class ${S.id.c}  •  No. ${S.id.p}  •  ${S.id.m}`,W/2,445,1000);
+x.fillText("for successfully completing",W/2,520);
+x.font="700 38px sans-serif";x.fillText(D[i].t,W/2,575,1000);
+x.font="700 70px Georgia,serif";x.fillStyle="#ffd24a";x.fillText("Score: "+S.sc[i],W/2,670);
+x.fillStyle="#bcd0ff";x.font="22px sans-serif";x.fillText(new Date().toLocaleDateString(S.lang==="id"?"id-ID":"en-GB",{day:"numeric",month:"long",year:"numeric"}),W/2,740);
+x.fillStyle="#fff";x.font="italic 24px Georgia,serif";x.fillText("Created by Ahmad Budi Leksono",W/2,785)}
+function pad(n){return String(n).padStart(2,"0")}
+function tick(){$("#clock").textContent=new Date().toLocaleTimeString(S.lang==="id"?"id-ID":"en-GB");
+if(!S.id||S.done||S.locked)return;const l=Math.max(0,Math.ceil((S.end-Date.now())/1000));
+$("#tm").textContent=pad(Math.floor(l/60))+":"+pad(l%60);$("#tm").classList.toggle("low",l<300);
+if(l<=0){S.done=true;D.forEach((_,u)=>{if(!S.ch[u]){S.ch[u]=true;score(u)}});render()}}
+function lock(){if(!S.auth||S.locked||!S.id||S.done)return;S.locked=true;try{localStorage.setItem("pl_lock","1")}catch(_){}document.cookie="pl_lock=1;max-age=31536000;path=/";render()}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)lock()});
+window.addEventListener("blur",lock);
+window.addEventListener("storage",e=>{if(e.key==="pl_lock"&&e.newValue==="1"){S.locked=true;render()}});
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+if(d.a==="lang"){S.lang=S.lang==="id"?"en":"id";render()}
+else if(d.a==="theme"){S.theme=S.theme==="dark"?"light":"dark";render()}
+else if(b.id==="gl"){const u=$("#gu").value,p=$("#gp").value;if(btoa(u)==="YWRtaW4="&&btoa(p)==="MTIz"){S.auth=true;S.err="";render()}else{S.err=t("bad");gate()}}
+else if(d.v!==undefined){S.view=+d.v;render()}
+else if(b.id==="go"){const v=[0,1,2,3].map(i=>$("#f"+i).value.trim());if(v.some(x=>!x)){$("#lg").textContent="⚠ "+t("fill");return}
+const nid={n:v[0],c:v[1],p:v[2],m:v[3]};if(S.id&&JSON.stringify(nid)===JSON.stringify(S.id)&&!S.done){S.view=1;render();return}
+S.id=nid;S.done=false;build();S.end=Date.now()+2400000;const lg=$("#lg");let k=0;b.disabled=true;
+const iv=setInterval(()=>{if(S.locked){clearInterval(iv);return}if(k<3){lg.textContent="⟳ "+t("ana")[k++]}else{clearInterval(iv);S.view=1;render()}},650);tick()}
+else if(d.o!==undefined){S.a[S.view-2][+d.i]=d.o;render()}
+else if(d.c!==undefined){const u=+d.c;score(u);S.ch[u]=true;render()}
+else if(d.r!==undefined){const u=+d.r;bu(u,Object.values(S.id).join("|").toLowerCase()+Date.now());render()}
+else if(d.d!==undefined){const a=document.createElement("a");a.href=$("#cv"+d.d).toDataURL("image/png");a.download=`Certificate-${S.id.n.replace(/\W+/g,"_")}-${+d.d+1}.png`;a.click()}});
+document.addEventListener("input",e=>{if(e.target.dataset.t!==undefined)S.a[S.view-2][+e.target.dataset.t]=e.target.value});
+document.addEventListener("keydown",e=>{const k=e.key.toLowerCase();
+if(e.key==="Enter"&&e.target.id&&e.target.id[0]==="g"&&$("#gl"))$("#gl").click();
+if((e.ctrlKey||e.metaKey)&&["c","v","x","a","u","s","p","i","j","t","n"].includes(k)||e.key==="F12"||e.key==="PrintScreen"||(e.shiftKey&&e.key==="Insert")){e.preventDefault();if(e.key==="PrintScreen")try{navigator.clipboard.writeText("")}catch(_){}}});
+["copy","cut","paste","contextmenu","selectstart","dragstart","drop"].forEach(n=>document.addEventListener(n,e=>{if(n==="selectstart"&&e.target.closest&&e.target.closest("input"))return;e.preventDefault()}));
+setInterval(tick,1000);tick();render();
+</script></body></html>
